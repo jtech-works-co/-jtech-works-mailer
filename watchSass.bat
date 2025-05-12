@@ -1,0 +1,1 @@
+sass --watch --no-source-map --style=compressed ./public/assets/styles/index.scss:./src/index.min.css

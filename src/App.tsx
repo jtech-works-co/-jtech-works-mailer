@@ -1,26 +1,44 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Landing from './pages/Landing';
+import Auth from './pages/Auth';
+import SignUp from './pages/SignUp';
+import SignIn from './pages/SignIn';
+import { useAuthContext } from './context/AuthContext';
+import Home from './pages/Home';
+import Mailer from './pages/Mailer';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const { loading: isCurrentUserLoading, currentUser } = useAuthContext();
+
+	if (isCurrentUserLoading) {
+		return <div className="loading">Loading...</div>;
+	}
+
+	return (
+		<BrowserRouter>
+			<Routes>
+				{/* Authenticated User Routes */}
+				{currentUser ? (
+					<>
+						<Route path="/" element={<Mailer />} />
+					</>
+				) : (
+					<Route path="/" element={<Landing />} >
+						<Route index element={<Home />} />
+						<Route path="/get-started" element={<Home />} />
+						<Route path="/about-us" element={<Home />} />
+					</Route>
+				)}
+
+				{/* Auth Routes (for both states) */}
+				<Route path="/auth" element={<Auth />}>
+					<Route path="sign-up" element={<SignUp />} />
+					<Route path="sign-in" element={<SignIn />} />
+				</Route>
+			</Routes>
+		</BrowserRouter>
+	);
 }
 
 export default App;

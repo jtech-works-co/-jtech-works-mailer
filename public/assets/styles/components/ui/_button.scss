@@ -1,0 +1,23 @@
+@use '../../var/color' as *;
+
+.button {
+	cursor: pointer;
+	border: 0;
+	outline: none;
+
+	&.primary {
+		background-color: $color-primary;
+		color: $color-background;
+	}
+
+	&.secondary {
+		background-color: transparent;
+		color: $color-primary;
+		border: 2px solid $color-primary;
+	}
+
+	&.tertiary {
+		background-color: transparent;
+		color: $color-text;
+	}
+}

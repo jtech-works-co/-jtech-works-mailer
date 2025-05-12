@@ -1,0 +1,55 @@
+@use '../../var/color' as *;
+
+.textfield {
+	position: relative;
+	width: 100%;
+
+	input {
+		color: $color-text;
+		height: 48px;
+		width: 100%;
+		padding: 1rem 1rem 0.5rem 1rem;
+		background-color: transparent;
+		border: 1px solid $color-text;
+		border-radius: 6px;
+		outline: none;
+		transition: 0.3s;
+
+		&::placeholder {
+			transform: translateX(-100%);
+			transition: .3s;
+		}
+
+		&:focus {
+			border-color: $color-primary;
+
+			&::placeholder {
+				transform: translateX(0);
+			}
+
+			~label {
+				top: 0;
+				color: $color-primary;
+			}
+		}
+
+		&:not(:placeholder-shown) {
+			~label {
+				top: 0;
+				color: $color-text;
+			}
+		}
+
+	}
+
+	label {
+		position: absolute;
+		left: 1rem;
+		top: 50%;
+		transform: translateY(-50%);
+		background-color: $color-background;
+		padding: 0 0.25rem;
+		pointer-events: none;
+		transition: 0.2s ease all;
+	}
+}
