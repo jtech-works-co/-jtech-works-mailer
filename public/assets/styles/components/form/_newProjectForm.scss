@@ -1,0 +1,51 @@
+@use '../../var/color' as *;
+
+.new-project-bottom-sheet {
+	padding: 3rem;
+	background-color: $color-background;
+	box-shadow: inset 0 0 5px gray;
+
+	form {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+
+		label,
+		input {
+			width: 100%;
+			max-width: 800px;
+		}
+
+		input {
+			height: 48px;
+			padding: 0 2rem;
+			background: transparent;
+			border: 1px solid gray;
+			outline: none;
+			color: $color-text;
+			transition: 0.3s;
+
+			&:focus {
+				border: 1px solid $color-primary;
+				box-shadow: 0 0 3px $color-primary;
+			}
+		}
+
+		>.actions-container {
+			margin-top: 2rem;
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+
+			>button {
+				width: 100%;
+				max-width: 300px;
+				height: 48px;
+			}
+		}
+	}
+}

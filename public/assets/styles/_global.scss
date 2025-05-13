@@ -26,3 +26,24 @@ body {
 		display: none;
 	}
 }
+
+.confirm-dialog-custom-overlay {
+	background-color: #00000090 !important;
+
+	.react-confirm-alert-body {
+		background-color: $color-card !important;
+		color: $color-text;
+
+		.react-confirm-alert-button-group {
+			height: 48px;
+
+			button {
+				height: 100%;
+
+				&[label=Delete] {
+					background-color: red !important;
+				}
+			}
+		}
+	}
+}

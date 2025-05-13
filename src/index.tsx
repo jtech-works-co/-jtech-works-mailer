@@ -1,11 +1,13 @@
+import './index.min.css';
+import '@jtech-works/bottom-sheet/dist/index.css';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.min.css';
 import App from './App';
 import AuthContextProvider from './context/AuthContext';
 import { Toaster } from 'sonner';
-import '@jtech-works/bottom-sheet/dist/index.css';
 import ProjectsContextProvider from './context/ProjectsContext';
+import DialogContextProvider from '@jtech-works/dialog';
 
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
@@ -13,10 +15,12 @@ const root = ReactDOM.createRoot(
 root.render(
 	<React.StrictMode>
 		<Toaster />
-		<AuthContextProvider>
-			<ProjectsContextProvider>
-				<App />
-			</ProjectsContextProvider>
-		</AuthContextProvider>
+		<DialogContextProvider animation='bounce'>
+			<AuthContextProvider>
+				<ProjectsContextProvider>
+					<App />
+				</ProjectsContextProvider>
+			</AuthContextProvider>
+		</DialogContextProvider>
 	</React.StrictMode>
 );

@@ -1,12 +1,15 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { ProjectType } from "../types/ProjectType";
 import { useAuthContext } from "./AuthContext";
-import { onValue, ref } from "firebase/database";
+import { onValue, push, ref, remove, set } from "firebase/database";
 import { dbRef } from "../config/firebaseConfig";
 
 export type ProjectsContextType = {
 	projects: ProjectType[];
 	isLoading: boolean;
+	addProject: (projectName: string) => Promise<void>;
+	searchProject: (query: string) => ProjectType[];
+	deleteProjectByID: (projectID: string)=> Promise<void>;
 };
 
 export const ProjectsContext = createContext<ProjectsContextType | undefined>(undefined);
@@ -61,16 +64,75 @@ const ProjectsContextProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 		}
 
 		return apiKey;
+	};
+
+	const isNameAlreadyUsed = (name: string) => {
+		const matched = projects.filter((project) => {
+			return project.name.toLowerCase().trim() === name.toLowerCase().trim();
+		});
+
+		return matched.length>0;
 	};	
 
-	const addProject = async (projectName: string) => {
+	const addProject = async (projectName: string): Promise<void> => {
+		if (isNameAlreadyUsed(projectName)) {
+			throw new Error('Project Name is already used!');
+		}
+
+		if (!currentUser) return;
+
 		const newAPI = generateNewAPIKey();
-		
+
+		// Create a reference to the user's projects path
+		const projectsRef = ref(dbRef, `projects/${currentUser.uid}`);
+
+		// Push generates a unique key
+		const newProjectRef = push(projectsRef);
+
+		// Create project object
+		const newProject = {
+			name: projectName,
+			apiKey: newAPI,
+			createdAt: Date.now(),
+			logs: [] // default empty logs
+		};
+
+		// Set the data at the new reference
+		try {
+			await set(newProjectRef, newProject);
+		} catch (error) {
+			throw error;
+		}
+	};
+
+	const searchProject = (query: string): ProjectType[] => {
+		let filtered = projects;
+
+		filtered = filtered.filter((project) => {
+			return project.name.toLowerCase().includes(query.toLowerCase());
+		});
+
+		return filtered;
+	}
+
+	const deleteProjectByID = async (projectID: string):Promise<void> => {
+		if (!currentUser) return;
+		// Create a reference to the user's projects path
+		const projectRef = ref(dbRef, `projects/${currentUser.uid}/${projectID}`);
+
+		try {
+			await remove(projectRef);
+		} catch (error) {
+			throw error;
+		}
 	}
 
 	const value: ProjectsContextType = {
 		projects,
-		isLoading
+		isLoading,
+		addProject,
+		searchProject,
+		deleteProjectByID
 	};
 
 	return (

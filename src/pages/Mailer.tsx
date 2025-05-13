@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SearchQuery from "../components/ui/SearchQuery";
-import BottomSheet from "@jtech-works/bottom-sheet";
-import Textfield from "../components/ui/Textfield";
 import { useProjectsContext } from "../context/ProjectsContext";
 import { ProjectType } from "../types/ProjectType";
+import formatDate from "../utils/formatDate";
+import NewProjectForm from "../components/form/NewProjectForm";
+import { toast } from "sonner";
+import ProjectCard from "../components/ui/ProjectCard";
 
 const Mailer: React.FC = () => {
-	const { isLoading, projects } = useProjectsContext();
+	const { isLoading, searchProject } = useProjectsContext();
 	const [isAddBottomSheetOpen, setIsAddBottomSheetOpen] = useState<boolean>(false);
+	const [filteredProject, setFilteredProjects] = useState<ProjectType[]>([]);
+	const [query, setQuery] = useState<string>('');
+
+	useEffect(() => {
+		setFilteredProjects(searchProject(query));
+	}, [query, searchProject]);
 
 	return (
 		<div className="mailer">
@@ -18,37 +26,34 @@ const Mailer: React.FC = () => {
 
 			<div className="content">
 				<div className="actions">
-					<SearchQuery />
+					<SearchQuery onInput={(value) => setQuery(value)} />
 					<button onClick={() => setIsAddBottomSheetOpen(true)} className="add"><i className="fas fa-add"></i></button>
 				</div>
 
-				<div className={`projects ${isLoading && 'skeleton'}`}>
-					{isLoading ? (
-						Array.from({ length: 20 }).map((_, index) => (
-							<div className="card skeleton" key={index}></div>
-						))
-					) : (
-						projects.map((project: ProjectType, index) => (
-							<div className="card" key={index}>
-								<h1 className="name">{project.name}</h1>
-								<div className="info">
-									<h3 className="created-at">{project.createdAt}</h3>
-									<h3>{project.logs?.length ?? 0}</h3>
-								</div>
-							</div>
-						))
-					)}
+				<div className={'projects'}>
+					{
+						isLoading ?
+							(
+								<h1>Loading...</h1>
+							)
+							:
+							filteredProject.length>0 ?
+								(
+									filteredProject.map((project) => (
+										<ProjectCard key={project.id} project={project} />
+									))
+								)
+								: (
+									<h1>No Projects Found</h1>
+								)
+					}
 				</div>
 			</div>
 
-			<BottomSheet hasBackDrop isOpen={isAddBottomSheetOpen} onClose={() => setIsAddBottomSheetOpen(false)}>
-				<div className="new-project-bottom-sheet">
-					<form>
-						<Textfield className='textfield' />
-						<Textfield className='textfield' />
-					</form>
-				</div>
-			</BottomSheet>
+			<NewProjectForm
+				isOpen={isAddBottomSheetOpen}
+				onClose={() => setIsAddBottomSheetOpen(false)}
+			/>
 		</div>
 	);
 }

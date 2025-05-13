@@ -8,26 +8,10 @@ type SearchQueryProps = {
 const SearchQuery: React.FC<SearchQueryProps> = ({ onInput }) => {
 	const [value, setValue] = useState("");
 	const inputRef = useRef<HTMLInputElement>(null);
-	const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
 	useEffect(() => {
-		// Clear previous timer
-		if (debounceTimeout.current) {
-			clearTimeout(debounceTimeout.current);
-		}
-
-		// Set a new debounce timer
-		debounceTimeout.current = setTimeout(() => {
-			onInput?.(value);
-		}, 1000); // 1000ms = 1 second
-
-		// Cleanup on unmount
-		return () => {
-			if (debounceTimeout.current) {
-				clearTimeout(debounceTimeout.current);
-			}
-		};
-	}, [value, onInput]);
+		onInput?.(value);
+	}, [onInput, value]);
 
 	return (
 		<div className="query">

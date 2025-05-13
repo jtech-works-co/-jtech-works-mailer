@@ -5,5 +5,6 @@ export type ProjectType = {
 	name: string;
 	apiKey: string;
 	createdAt: number;
+	sentMail?: number;
 	logs?: ProjectLogs[];
 }

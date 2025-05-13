@@ -5,8 +5,11 @@
 
 @use './components/ui/button';
 @use './components/ui/footer';
+@use './components/ui/projectCard';
 @use './components/ui/searchQuery';
 @use './components/ui/textfield';
+
+@use './components/form/newProjectForm';
 
 @use './pages/helper/loading';
 
