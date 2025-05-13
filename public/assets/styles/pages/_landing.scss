@@ -13,13 +13,21 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 0 1rem;
+		padding: 0 2rem;
 
 		// Logo
 		.logo {
 			display: flex;
-			flex-direction:row;
-			align-items:center;
+			flex-direction: row;
+			align-items: center;
+
+			// Link to home
+			.site-title {
+				font-size: 3rem;
+				font-weight: bolder;
+				text-decoration: none;
+				color: $color-text;
+			}
 		}
 
 		// Links
@@ -28,14 +36,44 @@
 			top: 50%;
 			left: 50%;
 			transform: translate(-50%, -50%);
-			display:flex;
-			flex-direction:row;
-			align-items:center;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
 			gap: 1rem;
 
 			.nav-link {
+				text-wrap: nowrap;
+				position: relative;
 				color: $color-text;
 				text-decoration: none;
+				transition: .3s;
+				text-align: center;
+
+				&::before {
+					content:"";
+					position: absolute;
+					bottom:0;
+					width: 0;
+					height: 2px;
+					background-color: $color-text;
+					left: 50%;
+					transition: .3s;
+				}
+
+				&:hover {
+					&::before {
+						left: 0;
+						width: 100%;
+					}
+				}
+			}
+		}
+
+		.auth-actions {
+			.cta {
+				text-decoration: none;
+				color: $color-text;
+				text-transform: uppercase;
 			}
 		}
 	}

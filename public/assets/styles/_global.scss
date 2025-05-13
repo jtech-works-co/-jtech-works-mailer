@@ -26,9 +26,3 @@ body {
 		display: none;
 	}
 }
-
-.loading {
-	&::before {
-		content: "Loading...";
-	}
-}

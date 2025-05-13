@@ -7,7 +7,7 @@ const Landing: React.FC = () => {
 		<div className="landing">
 			<header className="landing-header">
 				<div className="logo">
-					<h1 className="site-title">JTech Mailer</h1>
+					<Link className="site-title" to='/'>JTech Mailer</Link>
 				</div>
 
 				<nav className="nav-links">

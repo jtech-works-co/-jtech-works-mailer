@@ -4,5 +4,6 @@
 @use './components/ui/button';
 @use './components/ui/textfield';
 
-@use './pages/landing';
 @use './pages/auth';
+@use './pages/landing';
+@use './pages/loading';
