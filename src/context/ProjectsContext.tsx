@@ -3,13 +3,14 @@ import { ProjectType } from "../types/ProjectType";
 import { useAuthContext } from "./AuthContext";
 import { onValue, push, ref, remove, set } from "firebase/database";
 import { dbRef } from "../config/firebaseConfig";
+import { ProjectLogs } from "../types/ProjectLogs";
 
 export type ProjectsContextType = {
 	projects: ProjectType[];
 	isLoading: boolean;
 	addProject: (projectName: string) => Promise<void>;
 	searchProject: (query: string) => ProjectType[];
-	deleteProjectByID: (projectID: string)=> Promise<void>;
+	deleteProjectByID: (projectID: string) => Promise<void>;
 };
 
 export const ProjectsContext = createContext<ProjectsContextType | undefined>(undefined);
@@ -42,8 +43,7 @@ const ProjectsContextProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 				id,
 				name: value.name,
 				apiKey: value.apiKey,
-				createdAt: value.createdAt,
-				logs: value.logs || []
+				createdAt: value.createdAt
 			}));
 
 			setProjects(loadedProjects);
@@ -71,8 +71,8 @@ const ProjectsContextProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 			return project.name.toLowerCase().trim() === name.toLowerCase().trim();
 		});
 
-		return matched.length>0;
-	};	
+		return matched.length > 0;
+	};
 
 	const addProject = async (projectName: string): Promise<void> => {
 		if (isNameAlreadyUsed(projectName)) {
@@ -115,7 +115,7 @@ const ProjectsContextProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 		return filtered;
 	}
 
-	const deleteProjectByID = async (projectID: string):Promise<void> => {
+	const deleteProjectByID = async (projectID: string): Promise<void> => {
 		if (!currentUser) return;
 		// Create a reference to the user's projects path
 		const projectRef = ref(dbRef, `projects/${currentUser.uid}/${projectID}`);
@@ -125,6 +125,10 @@ const ProjectsContextProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 		} catch (error) {
 			throw error;
 		}
+	}
+
+	const addLog = (log: ProjectLogs) => {
+
 	}
 
 	const value: ProjectsContextType = {
