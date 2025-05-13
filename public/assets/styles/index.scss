@@ -1,9 +1,16 @@
 @use './var/color';
 @use './global';
 
+@use './components/cta/socialLogin';
+
 @use './components/ui/button';
+@use './components/ui/footer';
+@use './components/ui/searchQuery';
 @use './components/ui/textfield';
 
+@use './pages/helper/loading';
+
 @use './pages/auth';
+@use './pages/home';
 @use './pages/landing';
-@use './pages/loading';
+@use './pages/mailer';

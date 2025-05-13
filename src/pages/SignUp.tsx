@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { useAuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { FirebaseError } from "firebase/app";
+import { SocialLogin } from "../components/cta/SocialLogin";
 
 const SignUp: React.FC = () => {
 	const { register } = useAuthContext();
@@ -50,6 +51,8 @@ const SignUp: React.FC = () => {
 		<form className="auth-form" onSubmit={handleSignUp}>
 			<h1 className="title">Create Account</h1>
 
+			<SocialLogin />
+
 			{/* Form fields */}
 			<Textfield
 				label="Email"
@@ -80,22 +83,6 @@ const SignUp: React.FC = () => {
 					text="Sign Up"
 					width="100%"
 				/>
-			</div>
-
-			{/* Separator */}
-			<div className="or" />
-
-			{/* Social login */}
-			<div className="actions">
-				<Button
-					variant="secondary"
-					text="Continue with Google"
-					width="100%"
-				/>
-			</div>
-
-			{/* Already have account */}
-			<div className="actions">
 				<Button variant="tertiary" height="30px" to="../sign-in" replace>
 					Already have account? <span className="link">Log In</span>
 				</Button>

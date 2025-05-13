@@ -1,0 +1,62 @@
+@use '../../var/color' as *;
+
+.query {
+	flex: 1;
+	max-width: 500px;
+	height: 48px;
+	display: flex;
+	align-items: center;
+	border: 1px solid gray;
+	border-radius: 999px;
+
+	&:has(input:focus) {
+		border: 1px solid $color-secondary;
+	}
+
+	i {
+		width: 48px;
+		aspect-ratio: 1/1;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	input {
+		flex: 1;
+		height: 100%;
+		background-color: transparent;
+		border: 0;
+		outline: none;
+		color: $color-text;
+
+		&::-webkit-search-cancel-button {
+			display: none;
+		}
+
+		&:focus::-webkit-search-cancel-button {
+			display: none;
+		}
+
+		&::-ms-clear {
+			display: none;
+		}
+
+		&:focus::-ms-clear {
+			display: none;
+		}
+	}
+
+	button {
+		font-size: 2rem;
+		background-color: transparent;
+		color: $color-text;
+		outline: none;
+		border: 0;
+		opacity: 0;
+		transition: .3s;
+
+		&.active {
+			opacity: 1;
+		}
+	}
+}

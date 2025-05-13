@@ -1,0 +1,66 @@
+@use '../var/color' as *;
+
+.home {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+
+	.hero-section {
+		height: 100svh;
+		padding: 2rem;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 1rem;
+
+		.site-title {
+			font-size: 4rem;
+		}
+
+		.cta-buttons {
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			min-width: 400px;
+			flex-wrap: wrap;
+			gap: 1rem;
+			width: 100%;
+
+			.cta {
+				cursor: pointer;
+				border: 0;
+				outline: none;
+				min-width: 200px;
+				height: 48px;
+				color: $color-text;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-size: 1.4rem;
+				text-transform: uppercase;
+				font-weight: bolder;
+				transition: scale .3s, background-color 0.3s, clip-path 0.3s;
+
+				&:nth-child(1) {
+					background-color: $color-primary;
+					color: $color-background;
+				}
+
+				&:nth-child(2) {
+					background-color: transparent;
+					color: $color-text;
+					border: 2px solid $color-primary;
+				}
+
+				&:hover {
+					scale: 1.07;
+				}
+
+				&:active {
+					scale: .95;
+				}
+			}
+		}
+	}
+}
